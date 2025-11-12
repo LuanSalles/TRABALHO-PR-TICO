@@ -3,13 +3,12 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import sqlite3
 
-# ======= CORES (tema Bonsai) =======
-COR_FUNDO = "#F4EAD5"    # bege claro
-COR_BOTAO = "#4A7856"    # verde musgo
-COR_TEXTO = "#2E2E2E"    # cinza escuro
-COR_BORDA = "#7A5230"    # marrom madeira
 
-# ======= BANCO DE DADOS =======
+COR_FUNDO = "#F4EAD5" 
+COR_BOTAO = "#4A7856"
+COR_TEXTO = "#2E2E2E"  
+COR_BORDA = "#7A5230"  
+
 def conectar():
     conexao = sqlite3.connect("estoque_bonsai.db")
     cursor = conexao.cursor()
@@ -53,7 +52,6 @@ def remover_produto(id):
     conexao.commit()
     conexao.close()
 
-# ======= FUNÇÕES DA INTERFACE PRINCIPAL =======
 def abrir_sistema():
     login_janela.destroy()
 
@@ -74,7 +72,7 @@ def abrir_sistema():
         preco = entrada_preco.get()
 
         if not nome or not quantidade or not preco:
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            messagebox.showwarning("Atenção", "Preencha todos os campos.")
             return
 
         try:
@@ -87,7 +85,7 @@ def abrir_sistema():
         adicionar_produto(nome, quantidade, preco)
         atualizar_lista()
         limpar_campos()
-        messagebox.showinfo("Sucesso", "Produto cadastrado com sucesso!")
+        messagebox.showinfo("Sucesso", "Produto cadastrado com sucesso.")
 
     def remover_item():
         item = lista.selection()
@@ -98,7 +96,7 @@ def abrir_sistema():
         id_produto = int(item[0])
         remover_produto(id_produto)
         atualizar_lista()
-        messagebox.showinfo("Sucesso", "Produto removido com sucesso!")
+        messagebox.showinfo("Sucesso", "Produto removido com sucesso.")
 
     def atualizar_item():
         item = lista.selection()
@@ -112,7 +110,7 @@ def abrir_sistema():
         preco = entrada_preco.get()
 
         if not nome or not quantidade or not preco:
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            messagebox.showwarning("Atenção", "Preencha todos os campos.")
             return
 
         try:
@@ -125,7 +123,7 @@ def abrir_sistema():
         atualizar_produto(id_produto, nome, quantidade, preco)
         atualizar_lista()
         limpar_campos()
-        messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")
+        messagebox.showinfo("Sucesso", "Produto atualizado com sucesso.")
 
     def selecionar_item(event):
         item = lista.selection()
@@ -151,7 +149,6 @@ def abrir_sistema():
         entrada_quantidade.delete(0, tk.END)
         entrada_preco.delete(0, tk.END)
 
-    # Labels e Entradas
     tk.Label(janela, text="Nome do Produto:", bg=COR_FUNDO, fg=COR_TEXTO).pack()
     entrada_nome = tk.Entry(janela, width=45)
     entrada_nome.pack()
@@ -164,7 +161,6 @@ def abrir_sistema():
     entrada_preco = tk.Entry(janela, width=45)
     entrada_preco.pack()
 
-    # Botões
     frame_botoes = tk.Frame(janela, bg=COR_FUNDO)
     frame_botoes.pack(pady=10)
 
@@ -172,7 +168,6 @@ def abrir_sistema():
     tk.Button(frame_botoes, text="Atualizar", command=atualizar_item, width=12, bg="#2196F3", fg="white", relief="flat").grid(row=0, column=1, padx=5)
     tk.Button(frame_botoes, text="Remover", command=remover_item, width=12, bg="#f44336", fg="white", relief="flat").grid(row=0, column=2, padx=5)
 
-    # Lista de produtos
     colunas = ("Nome", "Quantidade", "Preço")
     lista = ttk.Treeview(janela, columns=colunas, show="headings", height=10)
     for col in colunas:
@@ -181,13 +176,11 @@ def abrir_sistema():
 
     lista.bind("<<TreeviewSelect>>", selecionar_item)
 
-    # Inicializa banco e carrega lista
     conectar()
     atualizar_lista()
 
     janela.mainloop()
 
-# ======= TELA DE LOGIN =======
 def fazer_login():
     usuario = entrada_usuario.get()
     senha = entrada_senha.get()
@@ -215,3 +208,4 @@ entrada_senha.pack(pady=5)
 tk.Button(login_janela, text="Entrar", command=fazer_login, bg=COR_BOTAO, fg="white", width=15).pack(pady=15)
 
 login_janela.mainloop()
+
